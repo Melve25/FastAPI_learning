@@ -95,7 +95,7 @@ async def delete_todo(user: user_dependency,
 	todo_model = db.query(Todos).filter(Todos.id == todo_id)\
 		.filter(Todos.user_id == user.get('id')).first()
 	if todo_model is None:
-		raise HTTPException(status_code=404, detail='todo not found')
+		raise HTTPException(status_code=404, detail='Todo not found')
 	
 	db.query(Todos).filter(Todos.id == todo_id)\
 		.filter(Todos.user_id == user.get('id')).delete()
