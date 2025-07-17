@@ -1,7 +1,9 @@
-from fastapi import APIRouter, Depends,HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
+from fastapi.templating import Jinja2Templates
+from pathlib import Path
 
 from typing import Annotated
 from starlette import status
@@ -45,6 +47,18 @@ def get_db():
 		db.close()
 
 db_dependency = Annotated[Session, Depends(get_db)]
+
+templates = Jinja2Templates(directory='./src/fastapithird/templates')
+
+### Pages ###
+@router.get('/login-page')
+def render_login_page(request: Request):
+	return templates.TemplateResponse('login.html', {'request': request})
+
+@router.get('/register-page')
+def render_register_page(request: Request):
+	return templates.TemplateResponse('register.html', {'request': request})
+### Endpoints ###
 
 def authenticate_user(username: str, password: str, db: Session):
 	user = db.query(Users).filter(Users.username == username).first()
@@ -97,7 +111,7 @@ async def login_for_access_token(
 	):
 	user = authenticate_user(form_data.username, form_data.password, db)
 	if not user:
-		return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Could not validate user.')
+		raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Could not validate user.')
 	
 	token = create_access_token(user.username, user.id, user.role, timedelta(minutes=20))
 	return {'access_token': token, 'token_type': 'bearer'}
