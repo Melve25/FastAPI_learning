@@ -77,6 +77,7 @@ async def render_edit_todo_page(request: Request, todo_id: int, db: db_dependenc
 		todo = db.query(Todos).filter(Todos.id == todo_id).first()
 
 		return templates.TemplateResponse('edit-todo.html', {'request': request,'user': user, 'todo': todo})
+	
 	except:
 		return redirect_to_login()
 
