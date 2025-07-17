@@ -16,7 +16,7 @@ if (todoForm) {
 		}
 
 		try {
-			const response = await fetch('/todo/todo', {
+			const response = await fetch('/todo/', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
