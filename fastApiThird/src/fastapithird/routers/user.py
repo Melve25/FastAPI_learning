@@ -18,12 +18,10 @@ class ChangePass(BaseModel):
 class ChangePhoNum(BaseModel):
 	new_phone_number: str = Field(min_length=1)
 
-
 router = APIRouter(
 	prefix='/user',
 	tags=['user']
 )
-
 
 def get_db():
 	db = SessionLocal()

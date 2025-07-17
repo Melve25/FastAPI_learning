@@ -27,7 +27,6 @@ def override_get_db():
 def override_get_current_user():
 	return {'username': 'max', 'id': 1, 'role': 'admin'}
 
-
 client = TestClient(app)
 
 @pytest.fixture
