@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
 import fastapithird.models as models
@@ -11,8 +12,10 @@ models.Base.metadata.create_all(bind=engine)
 
 BASE_DIR = Path(__file__).resolve().parent
 TEMPLATES_DIR = BASE_DIR / "templates"
+STATIC_DIR = BASE_DIR / "static"
 
 template = Jinja2Templates(directory=TEMPLATES_DIR)
+app.mount('/static', StaticFiles(directory=STATIC_DIR), name='static')
 
 
 @app.get('/')
