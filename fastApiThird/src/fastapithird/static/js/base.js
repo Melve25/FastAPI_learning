@@ -66,7 +66,7 @@ if (editTodoForm) {
 
 			console.log(`${todoId}`)
 
-			const response = await fetch(`/todo/todo/${todoId}`, {
+			const response = await fetch(`/todo/${todoId}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
